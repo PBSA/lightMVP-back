@@ -16,6 +16,8 @@ The API should be accessible at http://localhost:3000/api/ (default port).
 ## API
 ### game_data
 `GET api/game_data/user/{username}` - Fetch user data from the database.
+
+
 `POST api/game_data/user/{username}` - Inserts user data into the database, if user already exists, it will overwrite.
 
 From here you should be able to dissect the `recentMatches` object for the data you need.
