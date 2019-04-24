@@ -8,6 +8,7 @@ Install MongoDB.
 Configure .env file so that `mongoURI` points to the database.
 
 npm install
+
 npm run dev
 
 The API should be accessible at http://localhost:3000/api/ (default port).
