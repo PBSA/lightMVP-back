@@ -41,6 +41,7 @@
     "node-fetch": "^2.3.0",
     "passport": "^0.4.0",
     "passport-jwt": "^3.0.1",
+    "passport-twitch": "^1.0.3",
     "request": "^2.88.0"
   }
 }
