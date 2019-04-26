@@ -20,4 +20,8 @@ The API should be accessible at http://localhost:3000/api/ (default port).
 
 `POST api/game_data/user/{username}` - Inserts user data into the database, if user already exists, it will overwrite.
 
+### Twitch Auth
+Your call to action should redirect to `/auth/twitch`.
+
+
 From here you should be able to dissect the `recentMatches` object for the data you need.
