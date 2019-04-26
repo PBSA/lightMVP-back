@@ -51,11 +51,11 @@ passport.deserializeUser(function (user, done) {
 // })
 
 app.get('/auth/twitch', passport.authenticate('twitch'))
-app.get('/auth/twitch/callback', passport.authenticate('twitch', { failureRedirect: '/' }), function (req, res) {
+app.get('/auth/twitch/callback', passport.authenticate('twitch', {failureRedirect: '/'}), function (req, res) {
   req.db.collection('user-profile').updateOne(
-    { displayName: req.session.passport.user.displayName },
+    {displayName: req.session.passport.user.displayName},
     req.session.passport.user,
-    { upsert: true }
+    {upsert: true}
   )
 
   // Successful authentication, redirect home.
