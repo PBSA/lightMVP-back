@@ -30,15 +30,16 @@ passport.serializeUser(function (user, done) {
 passport.deserializeUser(function (user, done) {
   done(null, user)
 })
+
 // Define a simple template to safely generate HTML with values from user's profile
-var template = handlebars.compile(`
+let template = handlebars.compile(`
 <html><head><title>Twitch Auth Sample</title></head>
 <table>
     <tr><th>Access Token</th><td>{{accessToken}}</td></tr>
     <tr><th>Refresh Token</th><td>{{refreshToken}}</td></tr>
-    <tr><th>Display Name</th><td>{{display_name}}</td></tr>
-    <tr><th>Bio</th><td>{{bio}}</td></tr>
-    <tr><th>Image</th><td>{{logo}}</td></tr>
+    <tr><th>Display Name</th><td>{{displayName}}</td></tr>
+    <tr><th>Email</th><td>{{email}}</td></tr>
+    <tr><th>Image</th><td><img src="{{logo}}" alt="avatar"></td></tr>
 </table></html>`)
 
 // If user has an authenticated session, display it, otherwise display link to authenticate
@@ -51,7 +52,6 @@ app.get('/', function (req, res) {
 })
 app.get('/auth/twitch', passport.authenticate('twitch'))
 app.get('/auth/twitch/callback', passport.authenticate('twitch', { failureRedirect: '/' }), function (req, res) {
-  console.log('callback')
   // Successful authentication, redirect home.
   res.redirect('/')
 })
