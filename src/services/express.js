@@ -32,26 +32,32 @@ passport.deserializeUser(function (user, done) {
 })
 
 // Define a simple template to safely generate HTML with values from user's profile
-let template = handlebars.compile(`
-<html><head><title>Twitch Auth Sample</title></head>
-<table>
-    <tr><th>Access Token</th><td>{{accessToken}}</td></tr>
-    <tr><th>Refresh Token</th><td>{{refreshToken}}</td></tr>
-    <tr><th>Display Name</th><td>{{displayName}}</td></tr>
-    <tr><th>Email</th><td>{{email}}</td></tr>
-    <tr><th>Image</th><td><img src="{{logo}}" alt="avatar"></td></tr>
-</table></html>`)
+// Handlebars testing for rapid prototyping
+// let template = handlebars.compile(`
+// <html><head><title>Twitch Auth Sample</title></head>
+// <table>
+//     <tr><th>Access Token</th><td>{{accessToken}}</td></tr>
+//     <tr><th>Refresh Token</th><td>{{refreshToken}}</td></tr>
+//     <tr><th>Display Name</th><td>{{displayName}}</td></tr>
+//     <tr><th>Email</th><td>{{email}}</td></tr>
+//     <tr><th>Image</th><td><img src="{{logo}}" alt="avatar"></td></tr>
+// </table></html>`)
+// app.get('/', function (req, res) {
+//   if (req.session && req.session.passport && req.session.passport.user) {
+//     res.send(template(req.session.passport.user))
+//   } else {
+//     res.send('<html><head><title>Twitch Auth Sample</title></head><a href="/auth/twitch"><img src="http://ttv-api.s3.amazonaws.com/assets/connect_dark.png"></a></html>')
+//   }
+// })
 
-// If user has an authenticated session, display it, otherwise display link to authenticate
-app.get('/', function (req, res) {
-  if (req.session && req.session.passport && req.session.passport.user) {
-    res.send(template(req.session.passport.user))
-  } else {
-    res.send('<html><head><title>Twitch Auth Sample</title></head><a href="/auth/twitch"><img src="http://ttv-api.s3.amazonaws.com/assets/connect_dark.png"></a></html>')
-  }
-})
 app.get('/auth/twitch', passport.authenticate('twitch'))
 app.get('/auth/twitch/callback', passport.authenticate('twitch', { failureRedirect: '/' }), function (req, res) {
+  req.db.collection('user-profile').updateOne(
+    { displayName: req.session.passport.user.displayName },
+    req.session.passport.user,
+    { upsert: true }
+  )
+
   // Successful authentication, redirect home.
   res.redirect('/')
 })

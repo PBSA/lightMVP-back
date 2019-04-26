@@ -18,12 +18,7 @@ function (accessToken, refreshToken, profile, done) {
   profile.refreshToken = refreshToken
   profile.email = profile._json.email
   profile.logo = profile._json.logo
-  console.log(profile._json)
-
-  return done(null, profile) // todo: database insertion
-  // User.findOrCreate({ twitchId: profile.id }, function (err, user) {
-  //   return done(err, user);
-  // });
+  return done(null, profile)
 }
 )
 
