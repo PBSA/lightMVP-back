@@ -25,3 +25,6 @@ From here you should be able to dissect the `recentMatches` object for the data 
 ### Twitch Auth
 Your call to action should redirect to `/auth/twitch`.
 
+
+An entry will be created in the collection `user-profile`
+
