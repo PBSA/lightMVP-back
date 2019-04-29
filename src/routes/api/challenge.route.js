@@ -15,6 +15,7 @@ router.post('/create/kills', (req, res) => {
     const payload = {
       'game': 'fortnite',
       'name': req.query.name,
+      'description': req.query.description,
       'type': 'kills',
       'value': parseInt(req.query.value),
       'participants': []
