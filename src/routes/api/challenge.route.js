@@ -45,15 +45,21 @@ router.post('/enter/:id', async (req, res) => {
     const user = req.query.user
     let r = await req.db.collection('challenge').findOne({_id: ObjectId(req.params.id)})
 
-    let participants = r.participants
-    participants.push(user)
+    if (r) {
+      let participants = r.participants
+      participants.push(user)
+      r.participants = participants
 
-    req.db.collection('challenge').updateOne(
-      { _id: ObjectId(req.params.id) },
-      {participants: participants}
-    )
+      req.db.collection('challenge').updateOne(
+        { _id: ObjectId(req.params.id) },
+        r
+      )
+      res.send('Joined')
 
-    res.send('Joined')
+      console.log(r)
+    } else {
+      res.status(400).send('Failed')
+    }
   }
 })
 
