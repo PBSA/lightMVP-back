@@ -36,20 +36,25 @@ router.get('/list', async (req, res) => {
   })
 })
 
-// Enter a challenge - WIP
+// Enter a challenge
 router.post('/enter/:id', async (req, res) => {
   if (!req.params.id || !ObjectId.isValid(req.params.id)) {
     console.log('ERR: Invalid ID')
     res.status(400).send('ERR: Invalid ID')
   } else { // valid
+    const user = req.query.user
     let r = await req.db.collection('challenge').findOne({_id: ObjectId(req.params.id)})
-    console.log(r)
+
+    let participants = r.participants
+    participants.push(user)
+
+    req.db.collection('challenge').updateOne(
+      { _id: ObjectId(req.params.id) },
+      {participants: participants}
+    )
+
     res.send('Joined')
   }
 })
-
-// router.post('/remove/:id', (req, res) => {
-
-// })
 
 module.exports = router
